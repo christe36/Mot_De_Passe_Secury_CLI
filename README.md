@@ -1,6 +1,6 @@
-# 🔐 Mot De Passe Secury CLI
+# Générateur de Mot de Passe Sécurisé — CLI & Docker
 
-Projet réalisé par **Eboule Miezan Christ Emmanuel**  
+Projet réalisé par **Eboule Miezan Christ Romuald Emmanuel**  
 
 ---
 
