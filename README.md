@@ -1,3 +1,24 @@
+# Générateur de Mot de Passe Sécurisé — CLI & Docker
+
+Projet réalisé par **Eboule Miezan Christ Romuald Emmanuel**  
+
+---
+
+## Description
+
+Application Java 21 en ligne de commande (CLI) permettant de générer des mots de passe robustes et sécurisés. La force de chaque mot de passeest est validée par un micro-service Docker utilisant l'algorithme **zxcvbn**.
+
+
+---
+
+## Prérequis
+
+- Java 21 JDK
+- Maven 3.9+
+- Docker Desktop
+
+---
+
 # Lancement
 
 ### 1. Construire l'image Docker
@@ -69,7 +90,6 @@ leur robustesse via un conteneur Docker séparé.
 
 Le point clé : **l'évaluation ne se fait pas en Java** mais dans un
 conteneur Docker. Les deux parties communiquent via HTTP :
-
 +-------------------+      requête HTTP GET      +---------------------+
 
 |   Programme Java  |  ---------------------->>  |  Conteneur Docker   |
