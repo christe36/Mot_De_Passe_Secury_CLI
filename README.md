@@ -36,6 +36,12 @@ mvn clean package
 java -jar target/motDePasseSecurCLI.jar
 ```
 
+### 3. Lancement rapide en une seule commande
+
+```bash
+docker start validator-service && mvn clean package && java -jar target/motDePasseSecurCLI.jar
+```
+
 ---
 
 ## Exemple
