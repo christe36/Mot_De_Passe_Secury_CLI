@@ -1,42 +1,25 @@
-# Générateur de Mot de Passe Sécurisé — CLI & Docker
+# Lancement
 
-Projet réalisé par **Eboule Miezan Christ Romuald Emmanuel**  
-
----
-
-## Description
-
-Application Java 21 en ligne de commande (CLI) permettant de générer
-des mots de passe robustes et sécurisés. La force de chaque mot de passe
-est validée par un microservice Docker utilisant l'algorithme **zxcvbn**
-
----
-
-## Prérequis
-
-- Java 21 JDK
-- Maven 3.9+
-- Docker Desktop
-
----
-
-## Lancement
-
-### 1. Construire et démarrer le conteneur Docker
+### 1. Construire l'image Docker
 
 ```bash
 docker build -t password-validator .
+```
+
+### 2. Démarrer le conteneur
+
+```bash
 docker run -d -p 3000:3000 --name validator-service password-validator
 ```
 
-### 2. Compiler et lancer l'application
+### 3. Compiler et lancer
 
 ```bash
 mvn clean package
 java -jar target/motDePasseSecurCLI.jar
 ```
 
-### 3. Lancement rapide en une seule commande
+### ⚡ Tout en une seule commande
 
 ```bash
 docker start validator-service && mvn clean package && java -jar target/motDePasseSecurCLI.jar
@@ -44,23 +27,34 @@ docker start validator-service && mvn clean package && java -jar target/motDePas
 
 ---
 
-## Exemple
+## Exemple d'utilisation
+GÉNÉRATEUR DE MOT DE PASSE SÉCURISÉ
 
 Longueur du mot de passe : 16
 
-Avec des majuscules ? (true/false) : true
+Avec des majuscules ? (true(t)/false(f)) : t
 
-Avec des chiffres ? (true/false) : true
+Avec des minuscules ? (true(t)/false(f)) : t
 
-Avec des symboles ? (true/false) : true
+Avec des chiffres ? (true(t)/false(f)) : t
+
+Avec des symboles ? (true(t)/false(f)) : t
 
 Combien de mots de passe ? : 3
+RÉSULTATS AVEC VALIDATION DOCKER
 
-1.)#_swVRz31r1s@K | Force : Très fort
-2. wiLEiOE3T]yT(9# | Force : Très fort
-3 .# %vhHDl69%8DPx! | Force : Fort
+)#_swVRz31r1s@K | Force : Très fort
+wiLEiOE3T]yT(9# | Force : Très fort
+#%vhHDl69%8DPx! | Force : Fort
 
----
+Merci d'avoir utilisé l'outil de sécurité !
+
+### Arrêter le conteneur
+
+```bash
+docker stop validator-service
+docker rm validator-service
+```
 
 ---
 
@@ -80,7 +74,7 @@ conteneur Docker. Les deux parties communiquent via HTTP :
 
 |   Programme Java  |  ---------------------->>  |  Conteneur Docker   |
 
-| (génération + CLI)|  <<--------------------    | (service zxcvbn)    |
+| (génération + CLI)|  <<--------------------    |  (service zxcvbn)   |
 
 +-------------------+    réponse JSON {score}    +---------------------+
 
@@ -94,20 +88,19 @@ conteneur Docker. Les deux parties communiquent via HTTP :
 
 ### 1.2 Niveaux de force
 
-| Score | Niveau      | Description                             |
-|-------|-------------|-----------------------------------------|
-| 0     | Très faible | Cassable immédiatement                  |
-| 1     | Faible      | Peu de complexité                       |
-| 2     | Moyen       | Complexité acceptable                   |
-| 3     | Fort        | Bonne complexité                        |
-| 4     | Très fort   | Excellente complexité                   |
+| Score | Niveau      | Description                    |
+|-------|-------------|--------------------------------|
+| 0     | Très faible | Cassable immédiatement         |
+| 1     | Faible      | Peu de complexité              |
+| 2     | Moyen       | Complexité acceptable          |
+| 3     | Fort        | Bonne complexité               |
+| 4     | Très fort   | Excellente complexité          |
 
 ---
 
 ## 2. Analyse Technique
 
 ### 2.1 Structure du projet
-
 Mot_De_Passe_Secury_CLI/
 
 ├── src/main/java/org/example/
@@ -142,8 +135,9 @@ l'évaluation est bien externe. Les caractères spéciaux sont encodés avec
 `URLEncoder` pour éviter les erreurs dans l'URL.
 
 **`Main.java`** — L'interface CLI  
-Orchestre l'application : saisie des paramètres, appel du générateur et
-du validateur, affichage des résultats.
+Orchestre l'application : saisie des paramètres, appel du générateur
+et du validateur, affichage des résultats. Inclut une validation des
+saisies pour éviter tout plantage du programme.
 
 **`validate.js`** — Le micro-service Node.js  
 Tourne dans le conteneur Docker. Expose une API HTTP sur le port 3000.
@@ -161,15 +155,15 @@ un JAR exécutable via `maven-assembly-plugin`.
 
 ### 2.3 Technologies
 
-| Composant       | Technologie      | Rôle                              |
-|-----------------|------------------|-----------------------------------|
-| Langage         | Java 21          | Génération + interface CLI        |
-| Build           | Maven 3.9+       | Compilation + packaging JAR       |
-| Parsing JSON    | Gson 2.10.1      | Lecture réponse Docker            |
-| Conteneur       | Docker           | Isolement du service d'évaluation |
-| Image Docker    | Node.js Alpine   | Légèreté du conteneur             |
-| Évaluation      | zxcvbn           | Calcul du score de robustesse     |
-| Serveur HTTP    | Express.js       | API HTTP dans le conteneur        |
+| Composant     | Technologie    | Rôle                              |
+|---------------|----------------|-----------------------------------|
+| Langage       | Java 21        | Génération + interface CLI        |
+| Build         | Maven 3.9+     | Compilation + packaging JAR       |
+| Parsing JSON  | Gson 2.10.1    | Lecture réponse Docker            |
+| Conteneur     | Docker         | Isolement du service d'évaluation |
+| Image Docker  | Node.js Alpine | Légèreté du conteneur             |
+| Évaluation    | zxcvbn         | Calcul du score de robustesse     |
+| Serveur HTTP  | Express.js     | API HTTP dans le conteneur        |
 
 ---
 
@@ -211,13 +205,6 @@ mvn clean package
 
 ```bash
 java -jar target/motDePasseSecurCLI.jar
-```
-
-### Arrêter le conteneur
-
-```bash
-docker stop validator-service
-docker rm validator-service
 ```
 
 ---
