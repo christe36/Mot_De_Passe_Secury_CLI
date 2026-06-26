@@ -19,7 +19,7 @@ mvn clean package
 java -jar target/motDePasseSecurCLI.jar
 ```
 
-### ⚡ Tout en une seule commande
+### Tout en une seule commande
 
 ```bash
 docker start validator-service && mvn clean package && java -jar target/motDePasseSecurCLI.jar
