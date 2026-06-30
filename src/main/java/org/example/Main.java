@@ -37,9 +37,9 @@ public class Main {
             try {
                 int val = Integer.parseInt(scanner.next().trim());
                 if (val > 0) return val;
-                System.out.println("❌ Entrez un nombre positif.");
+                System.out.println("Entrez un nombre positif.");
             } catch (NumberFormatException e) {
-                System.out.println("❌ Nombre entier requis.");
+                System.out.println("Nombre entier requis.");
             }
         }
     }
